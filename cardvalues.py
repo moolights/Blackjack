@@ -1,14 +1,15 @@
-ACE_ONE = 1
-ACE_ELEVEN = 11
-TWO = 2
-THREE = 3
-FOUR = 4
-FIVE = 5
-SIX = 6
-SEVEN = 7
-EIGHT = 8
-NINE = 9
-TEN = 10
-JACK = 10
-QUEEN = 10
-KING = 10
+CARDS = { 
+        "ace_one" : 1,
+        "ace_eleven" : 11,
+        "2" : 2,
+        "3" : 3,
+        "4" : 4,
+        "5" : 5,
+        "6" : 6,
+        "7" : 7,
+        "8" : 8,
+        "9" : 9,
+        "10" : 10,
+        "jack" : 10,
+        "queen" : 10,
+        "king" : 10 }

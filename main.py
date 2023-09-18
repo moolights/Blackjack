@@ -9,15 +9,13 @@ class PlayerHand:
     cards = []
     hand_total  =  0
 
-    def __init__(self, cards, hand_total):
-        self.cards = cards[random.choice(cardvalues), random.choice(cardvalues)]
+    def __init__(self, cards, hand_total= 0):
+        self.cards = cards
         self.hand_total = self.card[0] + self.card[1]
 
     def has_bust(self):
         return self.hand_total > 21
     
-    
-
 
 def get_deck():
     deck = []
@@ -43,7 +41,26 @@ def get_deck():
     
     deck = [card for card, card_count in ranks.items() for _ in range(card_count)]
     return deck 
+
+# Displays the shuffling deck to console using Fisher-Yates Algorithm
+def shuffle(deck):
+    n = len(deck)
+    for i in range(n - 1, 0, -1):
+        j = random.randint(0, i)
+        deck[i], deck[j] = deck[j], deck[i]
+        print(deck[i], end= " ")
+        time.sleep(.05)
+        if i % 13 == 0:
+            print("\n")
     
+    shuffled_deck = deck
+    print(f"\n\nTotal card count: {len(shuffled_deck)}")
+    return shuffled_deck
+    
+# Need function to deal cards
+def deal_cards(deck):
+
+
 # Need to ask user for addition deposits if balance is insufficient or user just wants to keep going
 def deposit():
     while True:
@@ -73,29 +90,10 @@ def get_bet():
     
     return bet
 
-# Displays the shuffling deck to console using Fisher-Yates Algorithm
-def shuffle_view(deck):
-    n = len(deck)
-    for i in range(n - 1, 0, -1):
-        j = random.randint(0, i)
-        deck[i], deck[j] = deck[j], deck[i]
-        print(deck[i], end= " ")
-        time.sleep(.05)
-        if i % 13 == 0:
-            print("\n")
-    
-    shuffled_deck = deck
-    print(f"\n\nTotal card count: {len(shuffled_deck)}")
-    return shuffled_deck
-    
-# Need function to deal cards
-
-# Need class for player hand?...
-
 def main():
     print("\nWelcome to Blackjack! Let's get started. First, let's shuffle the deck...\n")
     time.sleep(1)
-    deck = shuffle_view(get_deck())
+    deck = shuffle(get_deck())
     balance = deposit()
     bet = get_bet()
     while True:
@@ -105,7 +103,8 @@ def main():
         else:
             break;
     print("\nNow lets deal your cards...\n\n")
-
+    hand = PlayerHand(deal_cards(deck))
+    print(hand.cards)
     # call function that deals cards to user
     # call function that displays values of cards to the user
 
