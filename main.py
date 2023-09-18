@@ -1,5 +1,6 @@
 import random
 import time
+import cardvalues
 
 MAX_BET = 100
 MIN_BET = 1
@@ -73,10 +74,14 @@ def shuffle_view(deck):
     print(f"\n\nTotal card count: {len(shuffled_deck)}")
     return shuffled_deck
     
+# Need function to deal cards
+
+# Need class for player hand?...
+
 def main():
     print("\nWelcome to Blackjack! Let's get started. First, let's shuffle the deck...\n")
     time.sleep(1)
-    shuffle_view(get_deck())
+    deck = shuffle_view(get_deck())
     balance = deposit()
     bet = get_bet()
     while True:
@@ -85,6 +90,10 @@ def main():
             bet = get_bet()
         else:
             break;
-            
+    print("\nNow lets deal your cards...\n\n")
+
+    # call function that deals cards to user
+    # call function that displays values of cards to the user
+
 if __name__ == "__main__":
     main()
