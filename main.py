@@ -5,6 +5,20 @@ import cardvalues
 MAX_BET = 100
 MIN_BET = 1
 
+class PlayerHand:
+    cards = []
+    hand_total  =  0
+
+    def __init__(self, cards, hand_total):
+        self.cards = cards[random.choice(cardvalues), random.choice(cardvalues)]
+        self.hand_total = self.card[0] + self.card[1]
+
+    def has_bust(self):
+        return self.hand_total > 21
+    
+    
+
+
 def get_deck():
     deck = []
     ranks = {
