@@ -4,14 +4,17 @@ import cardvalues
 
 MAX_BET = 100
 MIN_BET = 1
+INIT_HAND = 2
+BLACKJACK = 21
 
 class PlayerHand:
     cards = []
     hand_total  =  0
+    ace_in_hand = False
 
-    def __init__(self, cards, hand_total= 0):
+    def __init__(self, cards, hand_total= 0, ace_in_hand= False):
         self.cards = cards
-        self.hand_total = self.card[0] + self.card[1]
+        self.hand_total = hand_total
 
     def has_bust(self):
         return self.hand_total > 21
@@ -56,12 +59,48 @@ def shuffle(deck):
     shuffled_deck = deck
     print(f"\n\nTotal card count: {len(shuffled_deck)}")
     return shuffled_deck
+
+def initial_deal(deck):
+    starting_cards = []
+    for _ in range(0, INIT_HAND):
+        card = random.choice(deck)
+        starting_cards.append(card)
+        deck.remove(card)
+    return starting_cards   
+
+# Need function to deal cards********************
+
+# The value of the player hand when the cards are first dealt
+def initial_hand_total(cards, player):
+    hand_total = 0
+    display_cards(player)
+    for card in cards:
+        if card == "A":
+            player.ace_in_hand = True
+            while True: # Maybe make this a function called set_ace_value************************
+                choice = input("Do you want the Ace to be 1 or 11 (this can be changed later): ")
+                choice = int(choice)
+                if choice in (1, 11):
+                    hand_total += choice
+                    break
+                else:
+                    print("No cheating...number must be 1 or 11")
+        else:
+            hand_total += cardvalues.CARDS[card]
+        
+    return hand_total
+
+# Need to finish function and use the ace in hand class variable***************
+def get_hand_total(player):
+    current_total = player.hand_total
+    print(f"Current hand total: {current_total}\n\n")
     
-# Need function to deal cards
-def deal_cards(deck):
-
-
-# Need to ask user for addition deposits if balance is insufficient or user just wants to keep going
+def display_cards(player):
+    for card in player.cards:
+        print(f"[{card}]", end= " ")
+    print("\n")
+    
+# Need to ask user for addition deposits if balance is insufficient or user just wants to keep going****************
 def deposit():
     while True:
         amount = input("\n\nHow much would you like to deposit? $")
@@ -90,6 +129,14 @@ def get_bet():
     
     return bet
 
+# Need to refactor this code*********************
+def start(deck):
+    starting_deal = initial_deal(deck)
+    temp_hand = PlayerHand(starting_deal)
+    total = initial_hand_total(starting_deal, temp_hand)
+    hand = PlayerHand(starting_deal, total)
+    return hand
+    
 def main():
     print("\nWelcome to Blackjack! Let's get started. First, let's shuffle the deck...\n")
     time.sleep(1)
@@ -102,11 +149,11 @@ def main():
             bet = get_bet()
         else:
             break;
+        
     print("\nNow lets deal your cards...\n\n")
-    hand = PlayerHand(deal_cards(deck))
-    print(hand.cards)
-    # call function that deals cards to user
-    # call function that displays values of cards to the user
+    hand = start(deck)
+    get_hand_total(hand)
+    #
 
 if __name__ == "__main__":
     main()
