@@ -46,7 +46,6 @@ def shuffle(deck):
     return shuffled_deck
 
 def initial_deal(deck):
-    print("\nNow lets deal your cards...\n\n")
     starting_cards = []
     for _ in range(0, INIT_HAND):
         card = random.choice(deck)

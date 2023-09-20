@@ -1,4 +1,3 @@
-import random
 import time
 import cardvalues
 import dealer
@@ -48,8 +47,11 @@ def hand_total(player):
     return hand_total
     
 def display_cards(player):
+    print("\nNow lets deal your cards...\n\n")
+    time.sleep(1)
     for card in player.cards:
         print(f"[{card}]", end= " ")
+        time.sleep(.8)
     print("\n")
     
 # Need to ask user for addition deposits if balance is insufficient or user just wants to keep going****************
@@ -94,11 +96,12 @@ def start():
     
     # This will change if I move hand_total and display_cards to class
     player = Player(starting_deal, balance, hand_total(temp_hand))
-    display_cards(player)
-    print(f"Total: {player.hand_total}")
     
     bet = get_bet(player)
     player.balance -= bet
+    
+    display_cards(player)
+    print(f"Total: {player.hand_total}")
     
     return player
     
