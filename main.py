@@ -6,20 +6,31 @@ MAX_BET = 100
 MIN_BET = 1
 INIT_HAND = 2
 BLACKJACK = 21
+ACE_ONE = 1
+ACE_ELEVEN = 11
 
 class PlayerHand:
     cards = []
+    balance = 0
     hand_total  =  0
     ace_in_hand = False
 
-    def __init__(self, cards, hand_total= 0, ace_in_hand= False):
+    def __init__(self, cards, balance= 0, hand_total= 0):
         self.cards = cards
+        self.balance = balance
         self.hand_total = hand_total
 
     def has_bust(self):
-        return self.hand_total > 21
+        return self.hand_total > BLACKJACK
     
-
+    # Test this against initial hand of [A][8] then draw a card that puts in over 21
+    def set_ace(self):
+        self.ace_in_hand = True
+        if self.hand_total <= 21:
+            return cardvalues.CARDS["Ace_Eleven"]
+        else: 
+            return cardvalues.CARDS["Ace_One"]
+    
 def get_deck():
     deck = []
     ranks = {
@@ -68,32 +79,21 @@ def initial_deal(deck):
         deck.remove(card)
     return starting_cards   
 
-# Need function to deal cards********************
+# Need function to deal cards when hitting********************
 
-# The value of the player hand when the cards are first dealt
-def initial_hand_total(cards, player):
+# The value of the player hand
+def hand_total(player):
     hand_total = 0
-    display_cards(player)
-    for card in cards:
+    for card in player.cards:
         if card == "A":
-            player.ace_in_hand = True
-            while True: # Maybe make this a function called set_ace_value************************
-                choice = input("Do you want the Ace to be 1 or 11 (this can be changed later): ")
-                choice = int(choice)
-                if choice in (1, 11):
-                    hand_total += choice
-                    break
-                else:
-                    print("No cheating...number must be 1 or 11")
+            hand_total += player.set_ace()
         else:
             hand_total += cardvalues.CARDS[card]
-        
+    
+    if player.has_bust():
+        print("You busted!")
+          
     return hand_total
-
-# Need to finish function and use the ace in hand class variable***************
-def get_hand_total(player):
-    current_total = player.hand_total
-    print(f"Current hand total: {current_total}\n\n")
     
 def display_cards(player):
     for card in player.cards:
@@ -104,7 +104,7 @@ def display_cards(player):
 def deposit():
     while True:
         amount = input("\n\nHow much would you like to deposit? $")
-        if amount.isdigit():
+        if amount.isdigit(): # For some reason negative values aren't registering
             amount = int(amount)
             if amount > 0:
                 break
@@ -115,12 +115,14 @@ def deposit():
             
     return amount
 
-def get_bet():
+def get_bet(player):
     while True:
-        bet = input("How much would you like to bet? $")
+        bet = input("\nHow much would you like to bet? $")
         if bet.isdigit():
             bet = int(bet)
-            if MIN_BET <= bet <= MAX_BET:
+            if bet > player.balance:
+                print(f"${bet} is greater than your balance of ${player.balance}")
+            elif MIN_BET <= bet <= MAX_BET:
                 break
             else:
                 print(f"Your bet must be between ${MIN_BET} - ${MAX_BET}")
@@ -129,31 +131,29 @@ def get_bet():
     
     return bet
 
-# Need to refactor this code*********************
-def start(deck):
-    starting_deal = initial_deal(deck)
-    temp_hand = PlayerHand(starting_deal)
-    total = initial_hand_total(starting_deal, temp_hand)
-    hand = PlayerHand(starting_deal, total)
-    return hand
+def start():
+    print("\nWelcome to Blackjack!")
+    balance = deposit()
     
-def main():
-    print("\nWelcome to Blackjack! Let's get started. First, let's shuffle the deck...\n")
+    print("\nLet's get started. First, let's shuffle the deck...\n")
     time.sleep(1)
     deck = shuffle(get_deck())
-    balance = deposit()
-    bet = get_bet()
-    while True:
-        if bet > balance:
-            print(f"${bet} is greater than your balance of ${balance}")
-            bet = get_bet()
-        else:
-            break;
-        
+    
     print("\nNow lets deal your cards...\n\n")
-    hand = start(deck)
-    get_hand_total(hand)
-    #
+    starting_deal = initial_deal(deck)
+    temp_hand = PlayerHand(starting_deal)
+    player = PlayerHand(starting_deal, balance, hand_total(temp_hand))
+    display_cards(player)
+    print(f"Total: {player.hand_total}")
+    
+    bet = get_bet(player)
+    player.balance -= bet
+    
+    return player
+    
+def main():
+    player = start()
+    
 
 if __name__ == "__main__":
     main()
