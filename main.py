@@ -1,15 +1,15 @@
 import random
 import time
 import cardvalues
+import dealer
+from dealer import get_deck
 
 MAX_BET = 100
 MIN_BET = 1
 INIT_HAND = 2
 BLACKJACK = 21
-ACE_ONE = 1
-ACE_ELEVEN = 11
 
-class PlayerHand:
+class Player:
     cards = []
     balance = 0
     hand_total  =  0
@@ -30,58 +30,10 @@ class PlayerHand:
             return cardvalues.CARDS["Ace_Eleven"]
         else: 
             return cardvalues.CARDS["Ace_One"]
-    
-def get_deck():
-    deck = []
-    ranks = {
-        "A" : 4,
-        "2" : 4,
-        "3" : 4,
-        "4" : 4,
-        "5" : 4,
-        "6" : 4,
-        "7" : 4,
-        "8" : 4,
-        "9" : 4,
-        "10" : 4,
-        "J" : 4,
-        "Q" : 4,
-        "K" : 4,
-    }
-
-    # for card, card_count in ranks.items():
-    #   for _ in range(card_count):
-    #       deck.append(card)
-    
-    deck = [card for card, card_count in ranks.items() for _ in range(card_count)]
-    return deck 
-
-# Displays the shuffling deck to console using Fisher-Yates Algorithm
-def shuffle(deck):
-    n = len(deck)
-    for i in range(n - 1, 0, -1):
-        j = random.randint(0, i)
-        deck[i], deck[j] = deck[j], deck[i]
-        print(deck[i], end= " ")
-        time.sleep(.05)
-        if i % 13 == 0:
-            print("\n")
-    
-    shuffled_deck = deck
-    print(f"\n\nTotal card count: {len(shuffled_deck)}")
-    return shuffled_deck
-
-def initial_deal(deck):
-    starting_cards = []
-    for _ in range(0, INIT_HAND):
-        card = random.choice(deck)
-        starting_cards.append(card)
-        deck.remove(card)
-    return starting_cards   
-
+        
 # Need function to deal cards when hitting********************
 
-# The value of the player hand
+# Maybe move this and display_cards() to the player class
 def hand_total(player):
     hand_total = 0
     for card in player.cards:
@@ -135,14 +87,13 @@ def start():
     print("\nWelcome to Blackjack!")
     balance = deposit()
     
-    print("\nLet's get started. First, let's shuffle the deck...\n")
-    time.sleep(1)
-    deck = shuffle(get_deck())
+    deck = dealer.shuffle(get_deck())
     
-    print("\nNow lets deal your cards...\n\n")
-    starting_deal = initial_deal(deck)
-    temp_hand = PlayerHand(starting_deal)
-    player = PlayerHand(starting_deal, balance, hand_total(temp_hand))
+    starting_deal = dealer.initial_deal(deck)
+    temp_hand = Player(starting_deal)
+    
+    # This will change if I move hand_total and display_cards to class
+    player = Player(starting_deal, balance, hand_total(temp_hand))
     display_cards(player)
     print(f"Total: {player.hand_total}")
     
