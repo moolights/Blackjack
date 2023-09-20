@@ -29,8 +29,6 @@ class Player:
             return cardvalues.CARDS["Ace_Eleven"]
         else: 
             return cardvalues.CARDS["Ace_One"]
-        
-# Need function to deal cards when hitting********************
 
 # Maybe move this and display_cards() to the player class
 def hand_total(player):
@@ -47,7 +45,7 @@ def hand_total(player):
     return hand_total
     
 def display_cards(player):
-    print("\nNow lets deal your cards...\n\n")
+    print("\nNow lets deal your cards...\n")
     time.sleep(1)
     for card in player.cards:
         print(f"[{card}]", end= " ")
