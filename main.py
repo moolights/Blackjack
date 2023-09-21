@@ -1,6 +1,9 @@
 import time
-import cardvalues
-from dealer import create_deck
+import setup.cardvalues as cardvalues
+# from dealer import create_deck
+from setup import player
+from setup import dealer
+from setup import cardvalues
 
 MAX_BET = 100
 MIN_BET = 1
@@ -79,7 +82,7 @@ def main():
     player = Player()
     player.deposit()
     player.bet()
-    deck = create_deck()
+    deck = dealer.create_deck()
     deck.shuffle()
     player.cards = deck.initial_deal()
     player.display_cards()
