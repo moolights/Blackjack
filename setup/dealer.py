@@ -26,15 +26,12 @@ class Deck:
     
         print(f"\n\nTotal card count: {len(self.cards)}")
     
-    def initial_deal(self):
-        starting_cards = []
-        for _ in range(0, INIT_HAND):
-            card = random.choice(self.cards)
-            starting_cards.append(card)
-            self.cards.remove(card)
-        return starting_cards
-    
-    # def card_count():
+    def deal_card(self):
+        return self.cards.pop()
+
+    def get_card_count(self):
+        return len(self.cards)
+
 
 def generate_deck():
     cards = []
@@ -63,3 +60,7 @@ def create_dealer():
     dealer = generate_deck()
     dealer.shuffle()
     return dealer
+
+def hit_or_stay():
+    choice = input("Hit or Stay: (H or S) ")
+    return choice.upper() == 'H'

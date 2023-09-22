@@ -11,6 +11,7 @@ class Player:
     balance = 0
     hand_total  =  0
     ace_in_hand = False
+    bust = False
 
     def __init__(self, cards = None, balance= 0):
         self.cards = cards
@@ -19,26 +20,44 @@ class Player:
     def has_bust(self):
         return self.hand_total > BLACKJACK
     
-    # Test this against initial hand of [A][8] then draw a card that puts in over 21
+    # Test this against [A][2][A], it fails this case
     def set_ace(self):
+        temp_total = self.hand_total
         self.ace_in_hand = True
-        if self.hand_total <= 21:
+        if temp_total <= BLACKJACK and temp_total + cardvalues.CARDS["Ace_Eleven"] <= BLACKJACK: 
             return cardvalues.CARDS["Ace_Eleven"]
         else: 
             return cardvalues.CARDS["Ace_One"]
     
     def value(self):
+        self.hand_total = 0
         for card in self.cards:
+            is_ace = False
             if card == "A":
+                is_ace = True
+            # The issue I'm having is setting the Ace in retrograde.
+            # Going back and setting the ace if the value is greater than 21 with an ace in hand
+            if is_ace:
+                self.hand_total += self.set_ace()
+            elif self.ace_in_hand and self.hand_total + cardvalues.CARDS[card] > BLACKJACK:
+                # The fix has to happen here ***************************
                 self.hand_total += self.set_ace()
             else:
                 self.hand_total += cardvalues.CARDS[card]
+
+            # if card == "A":
+            #     is_ace = True
+            #     self.hand_total += self.set_ace()
+            # else:
+            #     self.hand_total += cardvalues.CARDS[card]
+
         if self.has_bust():
             print("You busted!")
+            self.bust = True # Is this needed?
         print(f"Total: {self.hand_total}")
         
     def display_cards(self):
-        print("\nNow lets deal your cards...\n")
+        print("\nYour cards...\n")
         time.sleep(1)
         for card in self.cards:
             print(f"[{card}]", end= " ")
