@@ -56,31 +56,3 @@ def create_deck():
     
     deck = Deck(cards)
     return deck
-
-# Displays the shuffling deck to console using Fisher-Yates Algorithm
-# def shuffle(deck):
-#     print("\nLet's get started. First, let's shuffle the deck...\n")
-#     time.sleep(1)
-#     n = len(deck)
-#     for i in range(n - 1, 0, -1):
-#         j = random.randint(0, i)
-#         deck[i], deck[j] = deck[j], deck[i]
-#         print(deck[i], end= " ")
-#         time.sleep(.05)
-#         if i % 13 == 0:
-#             print("\n")
-    
-#     shuffled_deck = deck
-#     print(f"\n\nTotal card count: {len(shuffled_deck)}")
-#     return shuffled_deck
-
-# def initial_deal(deck):
-#     starting_cards = []
-#     for _ in range(0, INIT_HAND):
-#         card = random.choice(deck)
-#         starting_cards.append(card)
-#         deck.remove(card)
-#     return starting_cards   
-
-# Need function to deal cards when hitting********************
-
