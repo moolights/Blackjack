@@ -33,8 +33,10 @@ class Deck:
             starting_cards.append(card)
             self.cards.remove(card)
         return starting_cards
+    
+    # def card_count():
 
-def create_deck():
+def generate_deck():
     cards = []
     ranks = {
         "A" : 4,
@@ -56,3 +58,8 @@ def create_deck():
     
     deck = Deck(cards)
     return deck
+
+def create_dealer():
+    dealer = generate_deck()
+    dealer.shuffle()
+    return dealer

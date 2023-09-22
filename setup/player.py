@@ -73,3 +73,9 @@ class Player:
             else:
                 print("Please enter a number...")
         self.balance -= bet
+
+def create_player():
+    player = Player()
+    player.deposit()
+    player.bet()
+    return player
