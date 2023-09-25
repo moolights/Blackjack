@@ -50,7 +50,6 @@ class Player:
             time.sleep(.8)
         print("\n")
     
-    # Need to ask user for addition deposits if balance is insufficient or user just wants to keep going****************
     def deposit(self):
         while True:
             amount = input("\n\nHow much would you like to deposit? $")

@@ -26,7 +26,7 @@ def main():
             player_1.cards.append(the_dealer.deal_card())
         player_1.display_cards()
         player_1.value()
-        # Need to code for "stay" and the  winning hand
+        # Need to code for "stay" and the dealer hand
 
         if player_1.bust:
             player_1.cards.clear()
