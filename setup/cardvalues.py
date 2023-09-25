@@ -1,6 +1,7 @@
+ACE_ELEVEN = 11
+ACE_ONE = 1
+
 CARDS = { 
-        "Ace_One" : 1,
-        "Ace_Eleven" : 11,
         "2" : 2,
         "3" : 3,
         "4" : 4,

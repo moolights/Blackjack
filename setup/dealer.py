@@ -32,7 +32,6 @@ class Deck:
     def get_card_count(self):
         return len(self.cards)
 
-
 def generate_deck():
     cards = []
     ranks = {

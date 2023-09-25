@@ -19,42 +19,28 @@ class Player:
 
     def has_bust(self):
         return self.hand_total > BLACKJACK
-    
-    # Test this against [A][2][A], it fails this case
-    def set_ace(self):
-        temp_total = self.hand_total
-        self.ace_in_hand = True
-        if temp_total <= BLACKJACK and temp_total + cardvalues.CARDS["Ace_Eleven"] <= BLACKJACK: 
-            return cardvalues.CARDS["Ace_Eleven"]
-        else: 
-            return cardvalues.CARDS["Ace_One"]
-    
+
     def value(self):
+        self.bust = False
         self.hand_total = 0
+        ace_count = 0
         for card in self.cards:
-            is_ace = False
             if card == "A":
-                is_ace = True
-            # The issue I'm having is setting the Ace in retrograde.
-            # Going back and setting the ace if the value is greater than 21 with an ace in hand
-            if is_ace:
-                self.hand_total += self.set_ace()
-            elif self.ace_in_hand and self.hand_total + cardvalues.CARDS[card] > BLACKJACK:
-                # The fix has to happen here ***************************
-                self.hand_total += self.set_ace()
+                ace_count += 1
             else:
                 self.hand_total += cardvalues.CARDS[card]
+        
+        for _ in range(0, ace_count):
+            if self.hand_total + cardvalues.ACE_ELEVEN <= BLACKJACK:
+                    self.hand_total += cardvalues.ACE_ELEVEN
+            else: 
+                self.hand_total += cardvalues.ACE_ONE
 
-            # if card == "A":
-            #     is_ace = True
-            #     self.hand_total += self.set_ace()
-            # else:
-            #     self.hand_total += cardvalues.CARDS[card]
-
-        if self.has_bust():
-            print("You busted!")
-            self.bust = True # Is this needed?
         print(f"Total: {self.hand_total}")
+        if self.has_bust():
+            print("You busted!\n")
+            time.sleep(1.5)
+            self.bust = True
         
     def display_cards(self):
         print("\nYour cards...\n")
@@ -80,7 +66,7 @@ class Player:
         
     def bet(self):
         while True:
-            bet = input("\nHow much would you like to bet? $")
+            bet = input(f"\nHow much would you like to bet? (balance: ${self.balance}) $")
             if bet.isdigit():
                 bet = int(bet)
                 if bet > self.balance:
