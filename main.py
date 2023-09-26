@@ -14,7 +14,7 @@ def initial_deal(player, dealer):
     player.value()
 
 def main():
- 
+   
     player_1 = player.create_player()
     the_dealer = dealer.create_dealer()
     initial_deal(player_1, the_dealer)
