@@ -9,7 +9,6 @@ class Player:
     cards = []
     balance = 0
     hand_total  =  0
-    ace_in_hand = False
     bust = False
 
     def __init__(self, cards = None, balance= 0):
@@ -35,20 +34,14 @@ class Player:
             else: 
                 self.hand_total += cardvalues.ACE_ONE
 
-        print(f"Total: {self.hand_total}")
         if self.has_bust():
             print("You busted!\n")
             time.sleep(1.5)
             self.bust = True
-        
-    def display_cards(self):
-        print("\nYour cards...\n")
-        time.sleep(1)
-        for card in self.cards:
-            print(f"[{card}]", end= " ")
-            time.sleep(.8)
-        print("\n")
     
+    def show_total(self):
+        print(f"Total: {self.hand_total}")
+        
     def deposit(self):
         while True:
             amount = input("\n\nHow much would you like to deposit? $")

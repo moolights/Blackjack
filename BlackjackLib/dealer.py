@@ -1,7 +1,9 @@
 import random
 import time
+from BlackjackLib import cardvalues
 
 INIT_HAND = 2
+BLACKJACK = 21
 
 class Deck:
     cards = []
@@ -32,6 +34,39 @@ class Deck:
     def get_card_count(self):
         return len(self.cards)
 
+# can I use inheritance on this?******************
+class DealerHand:
+    cards = []
+    hand_total = 0
+    bust = False
+
+    def __init__(self, cards= None, hand_total= 0, bust = False):
+        self.cards = cards
+        self.hand_total = hand_total
+        self.bust = bust
+
+    def value(self):
+        self.bust = False
+        self.hand_total = 0
+        ace_count = 0
+        for card in self.cards:
+            if card == "A":
+                ace_count += 1
+            else:
+                self.hand_total += cardvalues.CARDS[card]
+        
+        for _ in range(0, ace_count):
+            if self.hand_total + cardvalues.ACE_ELEVEN <= BLACKJACK:
+                    self.hand_total += cardvalues.ACE_ELEVEN
+            else: 
+                self.hand_total += cardvalues.ACE_ONE
+
+        if self.hand_total > BLACKJACK:
+            self.bust = True
+    
+    def show_total(self):
+        print(f"Total: {self.hand_total}")
+        
 def generate_deck():
     cards = []
     ranks = {
