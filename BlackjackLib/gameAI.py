@@ -1,3 +1,4 @@
+import time
 from BlackjackLib import game
 
 BLACKJACK = 21
@@ -5,14 +6,24 @@ SOFT = 16
 
 def hit(bot):
     bot.cards.append(game.the_dealer.deal_card())
-    bot.value()
 
 def decision(bot):
     while not bot.bust:
         if bot.hand_total < BLACKJACK and bot.hand_total < SOFT:
             hit(bot)
+            display(bot)
         else:
             break;
+
+def display(bot):
+    print("\nDealer Cards:\n")
+    time.sleep(1)
+    for card in bot.cards:
+        print(f"[{card}]", end= " ")
+        time.sleep(.5)
+    print("\n")
+    bot.value()
+    bot.show_total()
 
 #     BLACKJACK STRATEGIES
 # Always double down on a hard 11

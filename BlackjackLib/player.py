@@ -10,10 +10,14 @@ class Player:
     balance = 0
     hand_total  =  0
     bust = False
+    stay = False
 
-    def __init__(self, cards = None, balance= 0):
+    def __init__(self, cards = None, balance= 0, hand_total= 0, bust= False, stay= False):
         self.cards = cards
         self.balance = balance
+        self.hand_total = hand_total
+        self.bust = bust
+        self.stay = stay
 
     def has_bust(self):
         return self.hand_total > BLACKJACK
