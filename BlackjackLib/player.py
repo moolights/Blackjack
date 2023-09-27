@@ -1,10 +1,9 @@
 import time
-import setup.cardvalues as cardvalues
+from BlackjackLib import cardvalues
 
 MAX_BET = 100
 MIN_BET = 1
 BLACKJACK = 21
-
 
 class Player:
     cards = []
